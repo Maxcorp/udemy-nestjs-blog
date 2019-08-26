@@ -6,7 +6,7 @@ export const typeOrmConfig: any = {
     port: 5432,
     username: 'postgres',
     password: 'postgres',
-    database: 'udemy-blog',
-    entities: [__dirname + '/../**/*entity.ts'],
+    database: 'udemy_blog',
+    entities: [__dirname  + '/../**/*.entity.ts'],
     synchronize: true,
 }
