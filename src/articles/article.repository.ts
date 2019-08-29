@@ -1,7 +1,7 @@
 import { EntityRepository, Repository } from "typeorm";
 import { Article } from "./article.entity";
 import { ArticleDto } from "./dto/article.dto";
-import { InternalServerErrorException } from "@nestjs/common";
+import { InternalServerErrorException, NotFoundException } from "@nestjs/common";
 import { Category } from "src/categories/category.entity";
 
 @EntityRepository(Article)
@@ -30,7 +30,24 @@ export class ArticleRepository extends Repository<Article> {
         return article;
     }
 
-    async updateArticle() {
+    async updateArticle(id: number, articleDto: ArticleDto) {
+        const article = await Article.findOne(id);
 
+        if(!article) {
+            throw new NotFoundException();
+        }
+
+        const { name,  body } = articleDto;
+        
+        article.name = name;
+        article.body = body;
+
+        try {
+            await article.save();
+        } catch(error) {
+            throw new InternalServerErrorException();
+        }
+
+        return article;
     }
 }

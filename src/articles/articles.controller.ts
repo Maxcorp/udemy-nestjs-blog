@@ -17,8 +17,8 @@ export class ArticlesController {
     }
 
     @Patch('/:id')
-    updateArticle(@Param('id', ParseIntPipe) id: number, articleDto: ArticleDto) {
-        
+    updateArticle(@Param('id', ParseIntPipe) id: number, @Body() articleDto: ArticleDto) {
+        return this.articlesService.updateArticle(id, articleDto);
     }
 
     @Delete('/:id')

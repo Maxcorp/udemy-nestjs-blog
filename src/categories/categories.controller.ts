@@ -17,7 +17,7 @@ export class CategoriesController {
     }
 
     @Patch('/:id')
-    updateCategory(@Param('id', ParseIntPipe) id: number, categoryDto: CategoryDto) {
+    updateCategory(@Param('id', ParseIntPipe) id: number, @Body() categoryDto: CategoryDto) {
         return this.categoriesService.updateCategory(id, categoryDto);
     }
 

@@ -29,8 +29,8 @@ export class ArticlesService {
        return await this.articleRepository.createArticle(articleDto, category);
     }
 
-    async updateArticle(id: number, articleDto: ArticleDto) {
-        
+    async updateArticle(id: number, articleDto: ArticleDto): Promise<Article> {
+        return await this.articleRepository.updateArticle(id, articleDto);
     }
 
     async deleteArticle(id: number) {
