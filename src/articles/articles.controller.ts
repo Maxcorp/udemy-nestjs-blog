@@ -13,7 +13,7 @@ export class ArticlesController {
 
     @Post()
     createAricle(@Body() articleDto: ArticleDto) {
-        
+        return this.articlesService.createArticle(articleDto);
     }
 
     @Patch('/:id')

@@ -15,7 +15,7 @@ export class Article extends BaseEntity {
     @Column()
     categoryId: number;
 
-    @Column()
+    @Column({nullable:true})
     userId: number
 
     @ManyToOne(type => Category, category => category.article, { eager: true })
