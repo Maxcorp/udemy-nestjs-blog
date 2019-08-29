@@ -34,6 +34,10 @@ export class ArticlesService {
     }
 
     async deleteArticle(id: number) {
-        
+        const result = await this.articleRepository.delete({ id });
+
+        if(result.affected === 0) {
+            throw new NotFoundException();
+        }
     }
 }
