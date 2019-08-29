@@ -1,4 +1,5 @@
-import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from "typeorm";
+import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne } from "typeorm";
+import { Category } from "src/categories/category.entity";
 
 @Entity()
 export class Article extends BaseEntity {
@@ -16,6 +17,9 @@ export class Article extends BaseEntity {
 
     @Column()
     userId: number
+
+    @ManyToOne(type => Category, category => category.article, { eager: true })
+    category: Category;
 
     @CreateDateColumn()
     created: Date

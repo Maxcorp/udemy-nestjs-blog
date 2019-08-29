@@ -8,7 +8,7 @@ export class ArticlesController {
 
     @Get()
     getArticle() {
-        
+        return this.articlesService.getArticles();
     }
 
     @Post()
