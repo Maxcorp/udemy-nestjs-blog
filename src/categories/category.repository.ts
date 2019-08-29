@@ -1,5 +1,7 @@
 import { EntityRepository, Repository } from "typeorm";
 import { Category } from "./category.entity";
+import { CategoryDto } from "./dto/category.dto";
+import { InternalServerErrorException, NotFoundException, HttpException } from "@nestjs/common";
 
 @EntityRepository(Category)
 export class CategoryRepository extends Repository<Category> {
@@ -10,10 +12,36 @@ export class CategoryRepository extends Repository<Category> {
         return category;
     }
 
-    async createCategory() {
+    async createCategory(categoryDto: CategoryDto): Promise<Category> {
+        const { name } = categoryDto;
+
+        const category = new Category();
+        try {
+            category.name = name;
+            await category.save();
+        } catch(error) {
+            throw new InternalServerErrorException();
+        }
+
+        return category;
     }
 
-    async udpateCategory() {
-        
+    async updateCategory(id: number, categoryDto: CategoryDto): Promise<Category> {
+        const category = await Category.findOne(id);
+
+        if(!category) {
+            throw new NotFoundException();
+        }
+
+        const { name } = categoryDto;
+        category.name = name;
+        try {
+           
+            await category.save();
+        } catch(error) {
+            throw new InternalServerErrorException();
+        }
+
+        return category;
     }
 }
