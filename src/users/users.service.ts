@@ -10,8 +10,8 @@ export class UsersService {
         private userRepository: UserRepository
     ) {}
 
-    async signUp(userDto: UserDto) {
-
+    async signUp(userDto: UserDto): Promise<void> {
+        return this.userRepository.signUp(userDto);
     }
 
     async signIn(userDto: UserDto) {
