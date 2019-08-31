@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Param, ParseIntPipe, Patch, Delete, UseGua
 import { ArticlesService } from './articles.service';
 import { ArticleDto } from './dto/article.dto';
 import { AuthGuard } from '@nestjs/passport';
+import { GetUser } from 'src/users/get-user.decorator';
 
 @Controller('articles')
 export class ArticlesController {
@@ -13,17 +14,25 @@ export class ArticlesController {
     }
 
     @Post()
-    createAricle(@Body() articleDto: ArticleDto) {
+    @UseGuards(AuthGuard())
+    createAricle(@Body() articleDto: ArticleDto, @GetUser() user) {
+        console.log(user);
         return this.articlesService.createArticle(articleDto);
     }
 
     @Patch('/:id')
-    updateArticle(@Param('id', ParseIntPipe) id: number, @Body() articleDto: ArticleDto) {
+    @UseGuards(AuthGuard())
+    updateArticle(
+        @Param('id', ParseIntPipe) id: number, 
+        @Body() articleDto: ArticleDto, 
+        @GetUser() user
+    ) {
         return this.articlesService.updateArticle(id, articleDto);
     }
 
     @Delete('/:id')
-    deleteArtcile(@Param('id', ParseIntPipe) id: number) {
+    @UseGuards(AuthGuard())
+    deleteArtcile(@Param('id', ParseIntPipe) id: number, @GetUser() user) {
         return this.articlesService.deleteArticle(id);
     }
 }
