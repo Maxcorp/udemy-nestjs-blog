@@ -3,21 +3,22 @@ import { ArticlesService } from './articles.service';
 import { ArticleDto } from './dto/article.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { GetUser } from 'src/users/get-user.decorator';
+import { Article } from './article.entity';
 
 @Controller('articles')
 export class ArticlesController {
     constructor(private articlesService: ArticlesService) {}
 
     @Get()
-    getArticle() {
+    getArticle(): Promise<Article[]> {
         return this.articlesService.getArticles();
     }
 
     @Post()
     @UseGuards(AuthGuard())
-    createAricle(@Body() articleDto: ArticleDto, @GetUser() user) {
+    createAricle(@Body() articleDto: ArticleDto, @GetUser() user): Promise<Article> {
         console.log(user);
-        return this.articlesService.createArticle(articleDto);
+        return this.articlesService.createArticle(articleDto, user);
     }
 
     @Patch('/:id')
@@ -26,13 +27,13 @@ export class ArticlesController {
         @Param('id', ParseIntPipe) id: number, 
         @Body() articleDto: ArticleDto, 
         @GetUser() user
-    ) {
-        return this.articlesService.updateArticle(id, articleDto);
+    ): Promise<Article> {
+        return this.articlesService.updateArticle(id, articleDto, user);
     }
 
     @Delete('/:id')
     @UseGuards(AuthGuard())
-    deleteArtcile(@Param('id', ParseIntPipe) id: number, @GetUser() user) {
-        return this.articlesService.deleteArticle(id);
+    deleteArtcile(@Param('id', ParseIntPipe) id: number, @GetUser() user): Promise<void> {
+        return this.articlesService.deleteArticle(id, user);
     }
 }
