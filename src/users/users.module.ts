@@ -18,6 +18,6 @@ import { PassportModule } from '@nestjs/passport';
     TypeOrmModule.forFeature([UserRepository])
   ],
   controllers: [UsersController],
-  providers: [UsersService]
+  providers: [UsersService],
 })
 export class UsersModule {}

@@ -26,7 +26,17 @@ export class UserRepository extends Repository<User> {
         }
     }
     
-    async signIn() {
+    async singIn(userDto: UserDto): Promise<string> {
+        const { username, password } = userDto;
+        const user = await this.findOne({username});
 
+        if(user) {
+            const hash = await bcrypt.hash(password, user.salt);
+            if(hash === user.password) {
+                return user.username;
+            }
+        }
+
+        return null;
     }
 }

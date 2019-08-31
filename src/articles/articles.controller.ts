@@ -1,6 +1,7 @@
-import { Controller, Get, Post, Body, Param, ParseIntPipe, Patch, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, ParseIntPipe, Patch, Delete, UseGuards, Req } from '@nestjs/common';
 import { ArticlesService } from './articles.service';
 import { ArticleDto } from './dto/article.dto';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('articles')
 export class ArticlesController {
