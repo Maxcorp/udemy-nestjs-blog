@@ -1,7 +1,9 @@
 import { Controller, Get, Post, Body, Patch, Param, ParseIntPipe, Delete } from '@nestjs/common';
 import { CategoriesService } from './categories.service';
 import { CategoryDto } from './dto/category.dto';
+import { ApiUseTags } from '@nestjs/swagger';
 
+@ApiUseTags('categories')
 @Controller('categories')
 export class CategoriesController {
     constructor(private categoriesService: CategoriesService) {}

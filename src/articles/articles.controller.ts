@@ -4,7 +4,9 @@ import { ArticleDto } from './dto/article.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { GetUser } from 'src/users/get-user.decorator';
 import { Article } from './article.entity';
+import { ApiUseTags, ApiBearerAuth } from '@nestjs/swagger';
 
+@ApiUseTags('articles')
 @Controller('articles')
 export class ArticlesController {
     constructor(private articlesService: ArticlesService) {}
@@ -15,6 +17,7 @@ export class ArticlesController {
     }
 
     @Post()
+    @ApiBearerAuth()
     @UseGuards(AuthGuard())
     createAricle(@Body() articleDto: ArticleDto, @GetUser() user): Promise<Article> {
         console.log(user);
@@ -23,6 +26,7 @@ export class ArticlesController {
 
     @Patch('/:id')
     @UseGuards(AuthGuard())
+    @ApiBearerAuth()
     updateArticle(
         @Param('id', ParseIntPipe) id: number, 
         @Body() articleDto: ArticleDto, 
@@ -32,6 +36,7 @@ export class ArticlesController {
     }
 
     @Delete('/:id')
+    @ApiBearerAuth()
     @UseGuards(AuthGuard())
     deleteArtcile(@Param('id', ParseIntPipe) id: number, @GetUser() user): Promise<void> {
         return this.articlesService.deleteArticle(id, user);
